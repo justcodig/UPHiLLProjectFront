@@ -11,7 +11,8 @@ const page = () => {
 
   return (
     <>
-      {parseInt(user.auth) === 2 ? <Admin /> : <User />}
+      {user.auth === "관리자" ? <Admin /> : <User />}
+      {/* {parseInt(user.auth) === 2 ? <User /> : <Admin />} */}
     </>
   )
 }

@@ -1,7 +1,6 @@
 "use client"
-
+import React from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styled from './used.module.css'
@@ -15,9 +14,9 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
         onScrollToEnd()
       }
     }
-    window.addEventListener("scroll", handlerScroll)
+    window.addEventListener("touchmove", handlerScroll)
     return () => {
-      window.removeEventListener('scroll', handlerScroll)
+      window.removeEventListener('touchmove', handlerScroll)
     }
   }, [useScollEnd])
 }
@@ -38,7 +37,9 @@ const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) 
 
 interface Product {
   id: number;
-  imageUrl: string
+  product: {
+    image: string
+  }
 }
 
 // allpage
@@ -86,7 +87,7 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
           page?.map((product: Product) => (
             <Image
               key={product.id}
-              src={`http://127.0.0.1:4000${product.product.image}`}
+              src={`https://uphillmountainapi.store${product.product.image}`}
               width={300}
               height={500}
               alt='사용완료 기프티콘'

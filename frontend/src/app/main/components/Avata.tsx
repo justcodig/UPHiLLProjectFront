@@ -2,6 +2,7 @@
 "use client"
 import { userInfo } from '@/app/(jotai)/atom';
 import { useAtom } from 'jotai';
+/// <reference types="@types/google.maps" />
 import React, { useEffect, useRef, useState } from 'react';
 
 interface AvataProps {
@@ -17,9 +18,8 @@ const Avata: React.FC<AvataProps> = ({ lat, lng, map }) => {
     const [prevLng, setPrevLng] = useState(lng); // 이전 경도 저장
     const [isMoving, setIsMoving] = useState(false); // 캐릭터 움직임 상태
     const markerRef = useRef<google.maps.Marker | null>(null);
-
-    const [user] = useAtom(userInfo);
-
+    const [user, setUser] = useAtom(userInfo);
+    //console.log(user)
     useEffect(() => {
         if (!map) return;
 
@@ -27,7 +27,8 @@ const Avata: React.FC<AvataProps> = ({ lat, lng, map }) => {
             position: { lat, lng },
             map,
             icon: {
-                url: `http://127.0.0.1:4000${user.image}`,
+                //url: characterFrames[0],
+                url: `https://uphillmountainapi.store${user.image}`,
                 scaledSize: new google.maps.Size(64, 64),
             },
         });
@@ -61,11 +62,11 @@ const Avata: React.FC<AvataProps> = ({ lat, lng, map }) => {
     // useEffect(() => {
     //     if (markerRef.current) {
     //         markerRef.current.setIcon({
-    //             url: characterFrames, // 움직일 때와 정지할 때의 아이콘 설정
+    //             url: isMoving ? characterFrames[characterIndex] : characterFrames[0], // 움직일 때와 정지할 때의 아이콘 설정
     //             scaledSize: new google.maps.Size(64, 64),
     //         });
     //     }
-    // }, [ characterFrames]);
+    // }, [isMoving, characterIndex]);
 
     return null;
 };

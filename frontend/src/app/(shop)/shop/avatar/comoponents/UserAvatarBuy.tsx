@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import styled from './userAvatarBuy.module.css';
 import customAxios from '@/lib/customAxios';
 import { Store } from './User';
+import { useAtom } from 'jotai';
+import { userInfo } from '@/app/(jotai)/atom';
 // import UserAvatar from '../atom/UserAvatar';
 
 const UserAvatarBuy = (props: {
@@ -12,6 +14,7 @@ const UserAvatarBuy = (props: {
   status: string,
   refetch: Function
 }) => {
+  const [user, setUser] = useAtom(userInfo);
 
   const handleBuy = async (e: React.MouseEvent) => {
     const response = await customAxios.put(`/shop/product/buy`, {
@@ -19,24 +22,26 @@ const UserAvatarBuy = (props: {
     })
     console.log(response.status)
     if (response.status === 200) {
-      props.setBuyPopup(false)
-      props.refetch()
+      props.setBuyPopup(false);
+      setUser({ ...user, point: (parseInt(user.point) - props.product as number) + "" })
+      props.refetch();
     }
     console.log(response);
   }
 
   const updateAvatar = async () => {
     try {
-
-      console.log(props.product.id)
       const response = await customAxios.put("/shop/avatar/update", {
         productId: props.product.id
       });
 
       if (response.status === 200) {
-        alert('변경되었습니다');
-        props.setBuyPopup(false)
-        props.refetch()
+        setUser((prev) => ({
+          ...prev,
+          image: props.product.image,
+        }));
+        props.setBuyPopup(false);
+        props.refetch();
       }
     } catch (error) {
       alert("변경되지 못했습니다.");
@@ -57,7 +62,7 @@ const UserAvatarBuy = (props: {
     <div className={styled.user_avatarFrm}>
       <div className={styled.user_wear}>
         <div className={styled.user_label}>
-          <img src={`http://127.0.0.1:4000${props.product.image}`} alt="현재착용중 아바타" />
+          <img src={`https://uphillmountainapi.store${props.product.image}`} alt="현재착용중 아바타" />
         </div>
       </div>
       <div className={styled.btn_area}>

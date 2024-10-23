@@ -17,23 +17,23 @@ import { useAtom, useAtomValue } from 'jotai'
 
 const queryClient = new QueryClient();
 interface IUser {
-  email:string,
-  point:number,
-  image:string,
-  auth:string,
-  nickName:string
+  email: string,
+  point: number,
+  image: string,
+  auth: string,
+  nickName: string
 }
 const InfoForm = () => {
   // const [userInfo, setUserInfo] = useState({
-    //   email: '',
-    //   points: 0,
-    //   nickname: '',
-    //   password: ''
-    // })
-    
+  //   email: '',
+  //   points: 0,
+  //   nickname: '',
+  //   password: ''
+  // })
+
   const [select, setSelect] = useState('개인정보')
   const [user, setUser] = useAtom(userInfo);
-  
+
   const [currentPassword, setCurrentPassword] = useState(''); // 현재 비밀번호 상태 추가
   const [temNinck, setTemNinck] = useState('')
   const [newPassword, setNewPassword] = useState('');
@@ -44,20 +44,20 @@ const InfoForm = () => {
 
   const getUserInfo = async () => {
     try {
-        if (user.email !== '') return;
-        const response = await customAxios.post("/user/userinfo");
-        if (response.status === 200) {
-            const { data } = response;
-            setUser(data);
-        }
+      if (user.email !== '') return;
+      const response = await customAxios.post("/user/userinfo");
+      if (response.status === 200) {
+        const { data } = response;
+        setUser(data);
+      }
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-}
+  }
 
-useEffect(()=>{
-  getUserInfo()
-},[])
+  useEffect(() => {
+    getUserInfo()
+  }, [])
 
   // 사용자 정보가 업데이트될 때마다 닉네임 초기화
   useEffect(() => {
@@ -70,23 +70,23 @@ useEffect(()=>{
   // useEffect(() => {
 
   //   initNickName();
-    // const fetchUserInfo = async () => {
-      //   try {
-        //     const response = await customAxios.post("/user/userinfo");
-        
-        //     setUserInfo(response.data);
-        //     setTemNinck(response.data.nickname); // 닉네임 초기화
-        //   } catch (error) {
-          //     console.error("사용자 정보를 가져오는 중 오류 발생:", error);
-          //   }
-          // };
-          // fetchUserInfo();
-    //     }, []);
-        
-    // const initNickName = () => {
-    //   setTemNinck(user.nickName);
-    // }
-        
+  // const fetchUserInfo = async () => {
+  //   try {
+  //     const response = await customAxios.post("/user/userinfo");
+
+  //     setUserInfo(response.data);
+  //     setTemNinck(response.data.nickname); // 닉네임 초기화
+  //   } catch (error) {
+  //     console.error("사용자 정보를 가져오는 중 오류 발생:", error);
+  //   }
+  // };
+  // fetchUserInfo();
+  //     }, []);
+
+  // const initNickName = () => {
+  //   setTemNinck(user.nickName);
+  // }
+
 
   // 닉네임 변경 함수
   const nicknameChange = async () => {
@@ -108,7 +108,7 @@ useEffect(()=>{
         type: 'nickName',
         data: temNinck
       });
-      console.log(updateresponse,11111)
+      console.log(updateresponse, 11111)
 
     } catch (error) {
       console.log(error)
@@ -146,7 +146,7 @@ useEffect(()=>{
       setPasswordMessage('새 비밀번호를 입력하세요.');
       return;
     }
-    
+
     try {
       const response = await customAxios.put("/user/findpassword", {
         type: 'password',
@@ -154,7 +154,7 @@ useEffect(()=>{
       });
       console.log(response.status);
       if (response.status === 200) {
-        
+
         setUser((prevUser) => ({ ...prevUser, password: newPassword }));
         setPasswordMessage('비밀번호가 변경되었습니다.');
       }
@@ -165,20 +165,20 @@ useEffect(()=>{
   };
 
   // 사용자 정보 가져오기
-useEffect(() => {
-  const getUserInfoPass = async () => {
-    try {
-      const response = await customAxios.post("/user/userinfo");
-      if (response.status === 200) {
-        setUser(response.data); // user 상태 업데이트
+  useEffect(() => {
+    const getUserInfoPass = async () => {
+      try {
+        const response = await customAxios.post("/user/userinfo");
+        if (response.status === 200) {
+          setUser(response.data); // user 상태 업데이트
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
 
-  getUserInfoPass();
-}, []);
+    getUserInfoPass();
+  }, []);
 
   return (<>
     <Header showBackButton={false} /> {/* 뒤로가기 버튼 숨기기 */}

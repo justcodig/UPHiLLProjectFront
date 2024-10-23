@@ -16,16 +16,16 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
     setWearState } = useContext(Store);
 
   const getStatus = () => {
-    console.log(product.orders)
+    // console.log(product.orders)
     if (product.orders.length > 0 && product.orders[0].usage)
-      setStatus('착용중')
+      setStatus('착용중');
     else if (product.orders.length > 0)
       setStatus('보유중')
-
   }
+
   useEffect(() => {
     getStatus()
-  }, [])
+  }, [product])
   const handlePopup = (e: React.MouseEvent) => {
     setBuyPopup(true);
   };
@@ -40,9 +40,12 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
         </div>) : null}
       {/* <div style={{ width: "100%", height: "110px", borderRadius: "10px", border: "1px solid black" }} onClick={handlePopup} > */}
       <div style={{ display: "flex", justifyContent: "center" }} onClick={handlePopup} >
-        <img src={`http://127.0.0.1:4000${product.image}`} alt="" style={{ borderRadius: "10px", border: "1px solid gray", width: "130px", height: "130px" }} />
+        <img src={`https://uphillmountainapi.store${product.image}`} alt="" style={{ borderRadius: "10px", border: "1px solid gray", width: "130px", height: "130px" }} />
       </div>
-      <p style={{ textAlign: "center", fontWeight: 'bold' }}>{product.name}</p>
+      <p style={{ textAlign: "center", fontWeight: 'bold', lineHeight: "20px" }}>{product.name}
+        <br />
+        {product.price} P
+      </p>
       {<p style={{ textAlign: "center", fontWeight: 'bold' }}>{status}</p>}
     </div>
   )

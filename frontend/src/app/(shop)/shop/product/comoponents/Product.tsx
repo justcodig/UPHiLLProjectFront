@@ -3,7 +3,7 @@
 import styled from './product.module.css'
 import customAxios from '@/lib/customAxios';
 
-const Product = ({ product, setProductId, productId, modifyPopup, setModifyPopup, name, price, image, refetch }: { product: any, setProductId: Function, productId: number, modifyPopup: boolean, setModifyPopup: Function, name: string, price: number, image: string, refetch: Function }) => {
+const Product = ({ product, setProductId, modifyPopup, setModifyPopup, refetch }: { product: any, setProductId: Function, modifyPopup: boolean, setModifyPopup: Function, refetch: Function }) => {
 
   const handleDelete = async () => {
     try {
@@ -21,7 +21,7 @@ const Product = ({ product, setProductId, productId, modifyPopup, setModifyPopup
   return (
     <div className={styled.product_wrap}>
       <div className={styled.product_img}>
-        <img src={`http://127.0.0.1:4000${product.image}`} />
+        <img src={`https://uphillmountainapi.store${product.image}`} />
       </div>
       <div className={styled.product_desc}>
         <span className={styled.product_title}>{product.name}</span>
